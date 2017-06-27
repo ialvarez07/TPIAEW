@@ -30,13 +30,17 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+SITE_ID = 1
+
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'tpIAEW.turicor'
 ]
 
 MIDDLEWARE = [
@@ -78,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Turicor',
         'USER': 'root',
-        'PASSWORD': 'sistemas123',
+        'PASSWORD': 'clave',
         'HOST': '',
         'PORT': '',
     }
@@ -107,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ar'
 
 TIME_ZONE = 'UTC'
 
@@ -122,3 +126,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_URL = '/login/'
+
+CLIENT_ID = 'TPI_GrupoNro3'
+CLIENT_SECRET = 'pass12345'
+REDIRECT_URI = 'http://localhost:8000/oauth2/callback'
+SCOPE = 'read'
+
+PROTOCOLO_OA = 'http://'
+IP_OA = '104.197.29.243'
+PUERTO_OA = '8080'
+
+URL_AUTHORIZATION = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/authorize'
+URL_ACCESS_TOKEN = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/access_token'
+URL_TOKEN_INFO = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/tokeninfo'
