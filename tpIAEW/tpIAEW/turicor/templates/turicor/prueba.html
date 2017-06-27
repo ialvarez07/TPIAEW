@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+	<head>
+	</head>
+	<body>
+	<button id="btn_prueba">probar</button>
+	<script type="text/javascript" src="{% static 'turicor/js/jquery-3.2.1.min.js' %}"></script>
+	<script>
+		$(document).ready(function(){
+			$('#btn_prueba').click(function(){				
+				$.ajax({
+					url: '/api/pais',
+					type: 'GET',
+					dataType: 'json',
+					success: function(data){
+						console.log(data)
+					}
+				});
+			});			
+		});
+	</script>
+	</body>
+</html>

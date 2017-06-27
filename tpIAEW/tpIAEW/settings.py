@@ -141,3 +141,5 @@ PUERTO_OA = '8080'
 URL_AUTHORIZATION = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/authorize'
 URL_ACCESS_TOKEN = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/access_token'
 URL_TOKEN_INFO = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/tokeninfo'
+
+URL_WSDL = 'http://romeroruben-001-site1.itempurl.com/WCFReservaVehiculos.svc?singlewsdl'

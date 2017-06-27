@@ -1,4 +1,6 @@
 import requests
+import json
+from zeep import Client
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -6,6 +8,9 @@ from django.conf import settings
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+
+
+soap = Client(settings.URL_WSDL)
 
 
 def oauth_callback(request):
@@ -53,7 +58,7 @@ def cerrar_sesion(request):
 
 @login_required
 def prueba_tmpl(request):
-    return HttpResponse('Prueba')
+    return render(request, 'turicor/prueba.html', {})
 
 
 @login_required
@@ -64,3 +69,17 @@ def index_tmpl(request):
 @login_required
 def ciudades_api(request):
     return HttpResponse('')
+
+
+@login_required
+def paises_api(request):
+    resultado = {}
+    if request.method == 'GET':
+        try:
+            paises_response = soap.service.ConsultarPaises()
+            paises = paises_response['Paises']['PaisEntity']
+            resultado = paises
+        except Exception as exc:
+            print(exc)
+            resultado['error'] = 'Ha ocurrido un error al obtener los paises.'
+    return HttpResponse(json.dumps(resultado))
