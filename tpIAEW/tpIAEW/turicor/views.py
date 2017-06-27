@@ -59,3 +59,8 @@ def prueba_tmpl(request):
 @login_required
 def index_tmpl(request):
     return HttpResponse('index')
+
+
+@login_required
+def ciudades_api(request):
+    return HttpResponse('')

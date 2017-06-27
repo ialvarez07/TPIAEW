@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^login/', views.login_tmpl, name='login_tmpl'),
     url(r'^logout/', views.cerrar_sesion, name='cerrar_sesion'),
     url(r'^prueba/', views.prueba_tmpl, name='prueba_tmpl'),
+    url(r'^api/ciudad/$', views.ciudades_api, name='ciudades_api'),
 ]
