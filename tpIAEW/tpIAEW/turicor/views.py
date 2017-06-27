@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 def oauth_callback(request):
     code = request.GET.get('code', None)
     scope = request.GET.get('scope', None)
+    error = request.GET.get('error', None)
     if code and scope:
         # Ahora tengo que solicitar el access token con el code obtenido
         datos = {
@@ -31,6 +32,9 @@ def oauth_callback(request):
             except Exception as exc:
                 print(exc)
                 return HttpResponse('Error al recibir access token')
+    elif error:
+        if error == 'access_denied':
+            return HttpResponse('Debe aceptar la aplicación Turicor para poder iniciar sesión.')
     return HttpResponse("Ha ocurrido un error")
 
 
