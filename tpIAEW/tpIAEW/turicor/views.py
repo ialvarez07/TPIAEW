@@ -25,7 +25,7 @@ def oauth_callback(request):
         if response.content:
             try:
                 dic = response.json()
-                if dic['access_token']:
+                if dic['access_token'] and dic['scope'] == 'read':
                     usuario_tmp, creado = User.objects.get_or_create(username=dic['access_token'])
                     login(request, usuario_tmp)
                     return HttpResponseRedirect(reverse('turicor:index_tmpl'))
