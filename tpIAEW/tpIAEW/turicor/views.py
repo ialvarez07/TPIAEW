@@ -1,6 +1,8 @@
 import requests
 import json
 from zeep import Client
+from zeep.cache import SqliteCache
+from zeep.transports import Transport
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -10,7 +12,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 
-soap = Client(settings.URL_WSDL)
+transport = Transport(cache=SqliteCache())
+soap = Client(settings.URL_WSDL, transport=transport)
 
 
 def oauth_callback(request):
@@ -39,7 +42,7 @@ def oauth_callback(request):
                 return HttpResponse('Error al recibir access token')
     elif error:
         if error == 'access_denied':
-            return HttpResponse('Debe aceptar la aplicación Turicor para poder iniciar sesión.')
+            return HttpResponse("Debe aceptar la aplicación Turicor para poder iniciar sesión.")
     return HttpResponse("Ha ocurrido un error")
 
 
