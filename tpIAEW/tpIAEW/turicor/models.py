@@ -34,3 +34,13 @@ class Vendedor(models.Model):
     class Meta:
         managed = False
         db_table = 'Vendedores'
+
+
+class Token(models.Model):
+    token = models.CharField(max_length=250)
+    expira = models.DateTimeField()
+    token_refresh = models.CharField(max_length=250)
+
+    class Meta:
+        managed = False
+        db_table = 'Tokens'
