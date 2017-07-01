@@ -16,6 +16,7 @@ soap = Client(settings.URL_WSDL, transport=transport)
 
 
 def oauth_callback(request):
+    respuesta = {}
     code = request.GET.get('code', None)
     scope = request.GET.get('scope', None)
     error = request.GET.get('error', None)
@@ -32,6 +33,7 @@ def oauth_callback(request):
         if response.content:
             try:
                 dic = response.json()
+                print(dic)
                 if dic['access_token'] and dic['scope'] == 'read':
                     usuario_tmp, creado = User.objects.get_or_create(username=dic['access_token'])
                     login(request, usuario_tmp)
@@ -42,7 +44,7 @@ def oauth_callback(request):
     elif error:
         if error == 'access_denied':
             return HttpResponse("Debe aceptar la aplicación Turicor para poder iniciar sesión.")
-    return HttpResponse("Ha ocurrido un error")
+    return HttpResponse(json.dumps(respuesta))
 
 
 def login(request):
