@@ -3,9 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.conf import settings
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
 
 
 def oauth_callback(request):
