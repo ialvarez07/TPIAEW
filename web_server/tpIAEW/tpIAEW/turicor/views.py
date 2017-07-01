@@ -38,24 +38,10 @@ def oauth_callback(request):
     return HttpResponse("Ha ocurrido un error")
 
 
-def login_tmpl(request):
+def login_redirect(request):
     url = settings.URL_AUTHORIZATION
     url += '?response_type=code&client_id=' + settings.CLIENT_ID + '&'
     url += 'scope=' + settings.SCOPE + '&'
     url += 'redirect_uri=' + settings.REDIRECT_URI
     return render(request, 'turicor/login.html', {'url_autenticacion': url})
 
-
-def cerrar_sesion(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('turicor:login_tmpl'))
-
-
-@login_required
-def prueba_tmpl(request):
-    return HttpResponse('Prueba')
-
-
-@login_required
-def index_tmpl(request):
-    return HttpResponse('index')
