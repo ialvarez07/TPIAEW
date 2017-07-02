@@ -10,6 +10,7 @@ def oauth_callback(request):
     scope = request.GET.get('scope', None)
     error = request.GET.get('error', None)
     if code and scope:
+        print("Código recibido: %s" % code)
         codigo_aleatorio = uuid.uuid4()
         datos = {
             'grant_type': 'authorization_code',
@@ -17,20 +18,22 @@ def oauth_callback(request):
             'client_id': settings.CLIENT_ID,
             'client_secret': settings.CLIENT_SECRET,
             'code': code,
-            'status': codigo_aleatorio
+            'state': codigo_aleatorio
         }
         response = requests.post(settings.URL_ACCESS_TOKEN, datos)
         if response.content:
             try:
                 dic = response.json()
-                if dic['access_token'] and dic['scope'] == 'read' and dic['status'] == codigo_aleatorio:
+                print(dic)
+                if dic['access_token'] and dic['scope'] == 'read':  # and dic['state'] == codigo_aleatorio:
                     at = dic['access_token']
-                    tiempo_expiracion_str = dic['expire_in']
+                    tiempo_expiracion_str = dic['expires_in']
                     expiracion = datetime.datetime.strftime(datetime.datetime.utcnow() +
                                                             datetime.timedelta(seconds=int(tiempo_expiracion_str)),
                                                             "%a, %d-%b-%Y %H:%M:%S GMT")
-                    response = HttpResponse()
+                    response = HttpResponse('')
                     response.set_cookie('access_token', at, expires=expiracion)
+                    print("Access token recibido: %s" % at)
                     return response
             except Exception as exc:
                 print(exc)
