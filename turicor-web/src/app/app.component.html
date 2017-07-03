@@ -19,5 +19,48 @@
 
     </div> <!-- /container -->
 
+    <!--<div class="dropdown">-->
+      <!--<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">-->
+        <!--Dropdown-->
+        <!--<span class="caret"></span>-->
+      <!--</button>-->
+    <div class="ui-g-12 ui-md-4">
+      <h3>Pais</h3>
+      <!--<select class="form-control" ng (change)="onSelect(pais)">-->
+            <!--<option *ngFor="let pais of paises">-->
+              <!--{{pais.name}}-->
+            <!--</option>-->
+      <!--</select>-->
+
+      <select class="form-control" [(ngModel)]="selectedPais" (change)="onChangePaises(selectedPais)"> // value is an object
+        <option *ngFor="let pais of paises" [ngValue]="pais">{{pais.name}}</option>
+      </select>
+      <h3>Ciudad</h3>
+      <select class="form-control" [(ngModel)]="selectedCiudad"> // value is an object
+        <option *ngFor="let pais of ciudades" [ngValue]="pais">{{pais.name}}</option>
+      </select>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-12 ui-md-4">
+        <h3>Retiro</h3>
+        <p-calendar [(ngModel)]="retiro" [showTime]="true"></p-calendar>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <h3>Devolucion</h3>
+        <p-calendar [(ngModel)]="devolucion" [showTime]="true"></p-calendar>
+      </div>
+    </div>
+    <button (click)="getVehiculosDisponible()">Aceptar</button>
+            <!--[class.selected]="pais === selectedHero"-->
+            <!--(click)="onSelect(hero)">-->
+          <!--<span class="badge">{{pais.id}}</span>-->
+          <!--<span>{{pais.name}}</span>-->
+          <!--<button class="delete"-->
+                  <!--(click)="delete(hero); $event.stopPropagation()">x</button>-->
+
+          <!--<select [(ngModel)]="selectedValue">-->
+            <!--<option *ngFor="let c of countries" [ngValue]="c">{{c.name}}</option>-->
+          <!--</select>-->
+
   </body>
 </html>

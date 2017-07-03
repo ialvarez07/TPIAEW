@@ -46,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'web_api.urls'
@@ -77,7 +78,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Turicor',
         'USER': 'root',
-        'PASSWORD': 'clave',
+        'PASSWORD': 'sistemas123',
         'HOST': '',
         'PORT': '',
     }
@@ -121,3 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+URL_WSDL = "http://romeroruben-001-site1.itempurl.com/WCFReservaVehiculos.svc?singlewsdl"
+
+CORS_ORIGIN_ALLOW_ALL = True;
+
