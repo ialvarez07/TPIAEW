@@ -4,7 +4,7 @@ import json
 import pytz
 from decimal import Decimal
 from django.http import HttpResponse
-<<<<<<< HEAD
+
 from zeep import Client, Transport
 from zeep.cache import SqliteCache
 
