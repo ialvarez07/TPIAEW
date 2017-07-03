@@ -1,6 +1,9 @@
 import json
 from django.http import HttpResponse
+from .decoradores import access_token_requerido
 
+
+@access_token_requerido
 def ciudades(request):
     resultado = {}
     if request.method == 'GET':
