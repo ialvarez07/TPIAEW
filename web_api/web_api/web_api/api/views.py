@@ -4,6 +4,7 @@ import json
 import pytz
 from decimal import Decimal
 from django.http import HttpResponse
+<<<<<<< HEAD
 from zeep import Client, Transport
 from zeep.cache import SqliteCache
 
@@ -16,6 +17,25 @@ from .util import serializar, DecimalEncoder
 transport = Transport(cache=SqliteCache())
 soap = Client(settings.URL_WSDL, transport=transport)
 client = Client("http://romeroruben-001-site1.itempurl.com/WCFReservaVehiculos.svc?singlewsdl")
+
+from .decoradores import access_token_requerido
+@access_token_requerido
+def ciudades(request):
+    resultado = {}
+    if request.method == 'GET':
+        lista_ejemplo = [
+            {
+                'id': 1,
+                'nombre': 'Cordoba'
+            },
+            {
+                'id': 2,
+                'nombre': 'Rosario'
+            }
+        ]
+        resultado = lista_ejemplo
+    return HttpResponse(json.dumps(resultado))
+
 
 
 def ciudad(request, id_ciudad):

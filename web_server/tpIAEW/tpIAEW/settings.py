@@ -79,12 +79,8 @@ WSGI_APPLICATION = 'tpIAEW.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Turicor',
-        'USER': 'root',
-        'PASSWORD': 'clave',
-        'HOST': '',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'turicor_sqlite',
     }
 }
 

@@ -122,7 +122,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
 URL_WSDL = "http://romeroruben-001-site1.itempurl.com/WCFReservaVehiculos.svc?singlewsdl"
 
 CORS_ORIGIN_ALLOW_ALL = True;
+
+
+
+PROTOCOLO_OA = 'http://'
+IP_OA = '104.197.29.243'
+PUERTO_OA = '8080'
+
+URL_TOKEN_INFO = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/tokeninfo'
 
