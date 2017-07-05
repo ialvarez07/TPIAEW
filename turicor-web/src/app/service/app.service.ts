@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http, Response} from '@angular/http';
+import {Headers, Http, RequestOptions, Response, URLSearchParams} from '@angular/http';
 import {Observable} from "rxjs/Observable";
 import {Pais} from "../models/pais";
 import 'rxjs/add/operator/map'
@@ -38,15 +38,14 @@ export class AppService {
   }
 
   getVehiculosDisponible(idCiudad:number, retiro:Date, devolucion:Date): Observable<Vehiculo[]>{
-    let params:URLSearchParams = new URLSearchParams();
-    params.append('idCiudad', idCiudad.toString());
-    params.append('retiro', retiro.toDateString());
-    params.append('devolucion', devolucion.toDateString());
-    console.log("Llega");
+    let params:URLSearchParams = new URLSearchParams;
+    params.set('retiro', retiro.toString());
+    params.set('devolucion', devolucion.toString());
+    let requestOptions = new RequestOptions();
+    requestOptions.params = params;
     return this.http
-      .get(`${this.apiUrl}`+'vehiculos/', {params:params})
+      .get(`${this.apiUrl}`+'ciudades/'+idCiudad +'/vehiculos/', {params:params})
       .map(response =>response.json().map(toVehiculo));
-
   }
 }
 
@@ -71,6 +70,16 @@ function toVehiculo(r: any): Vehiculo{
   let vehiculo = <Vehiculo>({
     id: r.Id,
     marca: r.Marca,
+    modelo:r.Modelo,
+    ciudad_id: r.CiudadId,
+    cantidad_disponible:r.CantidadDisponible,
+    cantidad_puertas:r.CantidadPuertas,
+    precio_por_dia:r.PrecioPorDia,
+    puntaje: r.Puntaje,
+    tiene_aire_acon: r.TieneAireAcon,
+    tiene_direccion: r.TieneDireccion,
+    tipo_cambio: r.TipoCambio,
+    vehiculo_ciudad_id: r.VehiculoCiudadId
   });
   return vehiculo;
 }

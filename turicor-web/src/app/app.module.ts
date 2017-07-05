@@ -10,6 +10,7 @@ import {HttpModule} from "@angular/http";
 import {FormsModule} from "@angular/forms";
 import { CalendarModule } from 'primeng/primeng';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { ReservaComponent } from './reserva/reserva.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     AppComponent,
     HeaderComponent,
     LoginComponent,
+    ReservaComponent,
   ],
   imports: [
     BrowserModule,

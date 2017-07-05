@@ -1,16 +1,3 @@
-// 'CantidadDisponible': 50,
-//   'CantidadPuertas': 5,
-//   'CiudadId': 2,
-//   'Id': 1,
-//   'Marca': 'CHEVROLET',
-//   'Modelo': 'SPARK',
-//   'PrecioPorDia': Decimal('200'),
-//   'Puntaje': '5',
-//   'TieneAireAcon': True,
-//   'TieneDireccion': True,
-//   'TipoCambio': 'M',
-//   'VehiculoCiudadId': 3
-
 export class Vehiculo{
   id:number;
   marca:string;

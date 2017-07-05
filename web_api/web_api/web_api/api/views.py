@@ -1,5 +1,6 @@
 import datetime
 import json
+import pdb
 
 import pytz
 from decimal import Decimal
@@ -10,6 +11,7 @@ from zeep.cache import SqliteCache
 
 from django.conf import settings
 from zeep.helpers import serialize_object
+from dateutil import parser
 
 
 from .util import serializar, DecimalEncoder
@@ -63,12 +65,17 @@ def getCiudades(request, idPais):
     return HttpResponse(data_json, content_type='application/json')
 
 
-def getVehiculosDisponibles(request):
-    idCiudad = request.GET.get('idCiudad');
-    print(idCiudad)
-    retiro = datetime.datetime.strptime('2017-07-02 17:08:16', '%Y-%m-%d %H:%M:%S')
-    devolucion = datetime.datetime.strptime('2017-07-02 20:08:16', '%Y-%m-%d %H:%M:%S')
-    datos = {'IdCiudad': 2, 'FechaHoraRetiro': retiro, 'FechaHoraDevolucion': devolucion}
+def getVehiculosDisponibles(request, idCiudad):
+    retiro_str = request.GET.get('retiro')[:-6].__str__()
+    devolucion_str = request.GET.get('devolucion')[:-6].__str__()
+
+    retiro_date = parser.parse(retiro_str)
+    devolucion_date = parser.parse(devolucion_str)
+
+    retiro = datetime.datetime.strptime(retiro_date.__str__()[:-6], '%Y-%m-%d %H:%M:%S')
+    devolucion = datetime.datetime.strptime(devolucion_date.__str__()[:-6], '%Y-%m-%d %H:%M:%S')
+
+    datos = {'IdCiudad': idCiudad, 'FechaHoraRetiro': retiro, 'FechaHoraDevolucion': devolucion}
     data = serialize_object(soap.service.ConsultarVehiculosDisponibles(datos))
     data = data['VehiculosEncontrados']['VehiculoModel']
     data_json = json.dumps(data, cls=DecimalEncoder)
