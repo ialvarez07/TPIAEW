@@ -131,7 +131,7 @@ REDIRECT_URI = 'http://localhost:8000/oauth2/callback'
 SCOPE = 'read'
 
 PROTOCOLO_OA = 'http://'
-IP_OA = '104.197.29.243'
+IP_OA = '130.211.183.120'
 PUERTO_OA = '8080'
 
 URL_AUTHORIZATION = PROTOCOLO_OA + IP_OA + ':' + PUERTO_OA + '/openam/oauth2/authorize'
