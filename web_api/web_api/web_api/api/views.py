@@ -2,8 +2,6 @@ import datetime
 import json
 import pdb
 
-import pytz
-from decimal import Decimal
 from django.http import HttpResponse
 
 from zeep import Client, Transport

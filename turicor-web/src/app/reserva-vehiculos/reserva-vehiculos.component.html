@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <h1>Reserva de Vehiculos</h1>
+  </div>
+  <div class="row">
+    <h3>Nombre y Apellido</h3>
+    <input class="form-control">
+  </div>
+  <div class="row">
+    <h3>Fecha De reserva</h3>
+    <h5>{{fechaActual | date:'medium'}}</h5>
+  </div>
+  <div class="row">
+    <h3>Fecha De Retiro</h3>
+    <h5>{{retiro | date:'medium'}}</h5>
+  </div>
+  <div class="row">
+    <h3>Fecha De Devolución</h3>
+    <h5>{{devolucion | date:'medium'}}</h5>
+  </div>
+  
+
+  <div class="row">
+    <button class="btn btn-primary pull-right" >Realizar Reserva</button>
+  </div>
+</div>

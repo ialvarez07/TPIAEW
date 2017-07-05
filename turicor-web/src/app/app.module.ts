@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import { CalendarModule } from 'primeng/primeng';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ReservaComponent } from './reserva/reserva.component';
+import { ReservaVehiculosComponent } from './reserva-vehiculos/reserva-vehiculos.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { ReservaComponent } from './reserva/reserva.component';
     HeaderComponent,
     LoginComponent,
     ReservaComponent,
+    ReservaVehiculosComponent,
   ],
   imports: [
     BrowserModule,

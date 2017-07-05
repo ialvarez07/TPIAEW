@@ -8,18 +8,20 @@ import {AppService} from "app/service/app.service";
   selector: 'app-reserva',
   templateUrl: './reserva.component.html',
   styleUrls: ['./reserva.component.css'],
-  providers: [AppService]
 })
 
 
 export class ReservaComponent implements OnInit {
   paises: Pais[];
   ciudades: Ciudad[];
+
   vehiculos: Vehiculo[];
   retiro:Date;
   devolucion:Date;
   selectedPais: Pais;
   selectedCiudad: Ciudad;
+  retiroSeleccionado:Date;
+  devolucionSeleccionado:Date;
 
   constructor(
     private appService : AppService,
@@ -41,13 +43,23 @@ export class ReservaComponent implements OnInit {
   getVehiculosDisponible():void{
     this.appService.getVehiculosDisponible(this.selectedCiudad.id,this.retiro,this.devolucion)
       .subscribe(vehiculos => this.vehiculos = vehiculos);
+    this.retiroSeleccionado = this.retiro;
+    this.devolucionSeleccionado = this.devolucion;
   }
 
-  hacerReserva():void{
-    console.log("hace reserva")
+  hacerReserva(vehiculo:Vehiculo):void{
+    this.appService.setVehiculo(vehiculo);
+    this.appService.setFechaRetiro(this.retiroSeleccionado);
+    this.appService.setFechaDevolucion(this.devolucionSeleccionado);
   }
 
   ngOnInit(): void {
     this.getPaises();
   }
+
+
+  /*TODO
+      Crear una clase reserva que tenga la fecha de retiro, fecha de devolucion fecha actual y que sea la que se use
+       para hacer la reserva en la siguiente pantalla
+  */
 }

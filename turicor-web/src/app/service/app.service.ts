@@ -10,6 +10,9 @@ import {Params} from "@angular/router";
 export class AppService {
   private apiUrl = 'http://127.0.0.1:8000/api/';
   private headers = new Headers({'Content-Type': 'application/json'});
+  private vehiculo:Vehiculo;
+  private retiro:Date;
+  private devolucion:Date;
 
   constructor(private http: Http) {
   }
@@ -46,6 +49,31 @@ export class AppService {
     return this.http
       .get(`${this.apiUrl}`+'ciudades/'+idCiudad +'/vehiculos/', {params:params})
       .map(response =>response.json().map(toVehiculo));
+  }
+
+  setVehiculo(vehiculo:Vehiculo){
+    this.vehiculo = vehiculo;
+  }
+
+  setFechaRetiro(retiro:Date){
+    this.retiro = retiro;
+  }
+
+  setFechaDevolucion(devolucion:Date){
+    this.devolucion = devolucion;
+  }
+
+
+  get getVehiculo(): Vehiculo {
+    return this.vehiculo;
+  }
+
+  get getRetiro(): Date {
+    return this.retiro;
+  }
+
+  get getDevolucion(): Date {
+    return this.devolucion;
   }
 }
 
