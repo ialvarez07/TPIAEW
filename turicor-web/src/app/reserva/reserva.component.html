@@ -2,31 +2,42 @@
   <div class="col-sm-2">
   </div>
   <div class="container">
-    <h1>Reserva de vehículos</h1>
     <div class="row">
-      <h3>Pais</h3>
-      <select class="form-control" [(ngModel)]="selectedPais" (change)="onChangePaises(selectedPais)"> // value is an
-        object
-        <option *ngFor="let pais of paises" [ngValue]="pais">{{pais.name}}</option>
-      </select>
+      <div class="col-sm-12 text-center">
+        <h1>Reserva de vehículos</h1>
+      </div>
     </div>
     <div class="row">
-      <h3>Ciudad</h3>
-      <select class="form-control" [(ngModel)]="selectedCiudad"> // value is an object
-        <option *ngFor="let pais of ciudades" [ngValue]="pais">{{pais.name}}</option>
-      </select>
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="row">
+          <h3>País</h3>
+          <select class="form-control" [(ngModel)]="selectedPais" (change)="onChangePaises(selectedPais)"> // value is an
+            object
+            <option *ngFor="let pais of paises" [ngValue]="pais">{{pais.name}}</option>
+          </select>
+        </div>
+        <div class="row">
+          <h3>Ciudad</h3>
+          <select class="form-control" [(ngModel)]="selectedCiudad"> // value is an object
+            <option *ngFor="let pais of ciudades" [ngValue]="pais">{{pais.name}}</option>
+          </select>
+        </div>
+        <div class="row text-center">
+          <div class="col-sm-6">
+            <h3>Retiro</h3>
+            <p-calendar [(ngModel)]="retiro" [showTime]="true"></p-calendar>
+          </div>
+          <div class="col-sm-6">
+            <h3>Devolución</h3>
+            <p-calendar [(ngModel)]="devolucion" [showTime]="true"></p-calendar>
+          </div>
+        </div>
+        <div class="row pull-right">
+          <button class="btn btn-primary" id="btnConsultar" (click)="getVehiculosDisponible()">Consultar</button>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <h3>Retiro</h3>
-      <p-calendar [(ngModel)]="retiro" [showTime]="true"></p-calendar>
-    </div>
-    <div class="row">
-      <h3>Devolucion</h3>
-      <p-calendar [(ngModel)]="devolucion" [showTime]="true"></p-calendar>
-    </div>
-    <div class="row">
-      <button class="btn btn-primary pull-right" (click)="getVehiculosDisponible()">Aceptar</button>
-    </div>
+
     <div class="row">
       <table class="table table-hover">
         <tr>
