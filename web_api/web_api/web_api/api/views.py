@@ -37,7 +37,7 @@ def ciudades(request):
     return HttpResponse(json.dumps(resultado))
 
 
-
+@access_token_requerido
 def ciudad(request, id_ciudad):
     resultado = {}
     if request.method == 'GET':
@@ -48,21 +48,21 @@ def ciudad(request, id_ciudad):
         resultado = ejemplo
     return HttpResponse(json.dumps(resultado))
 
-
+@access_token_requerido
 def getPaises(request):
     data = serialize_object(client.service.ConsultarPaises())
     data = data['Paises']['PaisEntity']
     data_json = json.dumps(data)
     return HttpResponse(data_json, content_type='application/json')
 
-
+@access_token_requerido
 def getCiudades(request, idPais):
     data = serialize_object(client.service.ConsultarCiudades({"IdPais": idPais}))
     data = data['Ciudades']['CiudadEntity']
     data_json = json.dumps(data)
     return HttpResponse(data_json, content_type='application/json')
 
-
+@access_token_requerido
 def getVehiculosDisponibles(request, idCiudad):
     retiro_str = request.GET.get('retiro')[:-6].__str__()
     devolucion_str = request.GET.get('devolucion')[:-6].__str__()
