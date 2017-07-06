@@ -14,7 +14,6 @@ import {AppService} from "app/service/app.service";
 export class ReservaComponent implements OnInit {
   paises: Pais[];
   ciudades: Ciudad[];
-
   vehiculos: Vehiculo[];
   retiro:Date;
   devolucion:Date;

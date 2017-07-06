@@ -15,6 +15,7 @@ export class AppService {
   private devolucion:Date;
 
   constructor(private http: Http) {
+    http.options(this.apiUrl,{headers:this.getHeaders()});
   }
 
   private getHeaders() {
@@ -50,6 +51,16 @@ export class AppService {
       .get(`${this.apiUrl}`+'ciudades/'+idCiudad +'/vehiculos/', {params:params})
       .map(response =>response.json().map(toVehiculo));
   }
+
+  realizarReserva(nombreYApellido:string, dni:string, lugarRetiro:string, lugarDevolucion:string, retiro:Date,
+                  devolucion:Date, vehiculo:Vehiculo){
+    let params:URLSearchParams = new URLSearchParams;
+    params.set('retiro', retiro.toString());
+    params.set('devolucion', devolucion.toString());
+    params.set('nombre', nombreYApellido);
+    //TODO
+  }
+
 
   setVehiculo(vehiculo:Vehiculo){
     this.vehiculo = vehiculo;
