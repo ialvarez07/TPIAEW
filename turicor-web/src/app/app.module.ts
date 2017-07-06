@@ -12,6 +12,7 @@ import { CalendarModule } from 'primeng/primeng';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ReservaComponent } from './reserva/reserva.component';
 import { ReservaVehiculosComponent } from './reserva-vehiculos/reserva-vehiculos.component';
+import { CheckToken } from './service/check-token.service';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ReservaVehiculosComponent } from './reserva-vehiculos/reserva-vehiculos
     BrowserAnimationsModule
   ],
   providers: [
-    AppService
+    AppService,
+    CheckToken
   ],
   bootstrap: [AppComponent]
 })

@@ -114,7 +114,7 @@ function toVehiculo(r: any): Vehiculo{
   return vehiculo;
 }
 
-function getAccessToken(): string {
+export function getAccessToken(): string {
   let cookies: Array<string> = document.cookie.split(';');
   let cookiesLen: number = cookies.length;
   let cookieName = 'access_token';
