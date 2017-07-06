@@ -9,8 +9,9 @@ def access_token_requerido(funcion):
     def verificar(*args, **kwargs):
         request = args[0]
         autorizacion = request.META.get('HTTP_AUTHORIZATION', None)
+        print("Authorization: %s" % autorizacion[1:-1])
         if autorizacion:
-            access_token = obtener_access_token(autorizacion)
+            access_token = obtener_access_token(autorizacion[1:-1])
             if validar_access_token(access_token):
                 return funcion(*args, **kwargs)
 
@@ -34,7 +35,7 @@ def obtener_access_token(barear):
 
 def validar_access_token(access_token):
     valido = False
-    print("Por validar el token: %s" % access_token)
+    print("Por validar el token: [%s]" % access_token)
     try:
         response = requests.get(settings.URL_TOKEN_INFO, {'access_token': access_token})
         if response.status_code == 200 and response.content:
