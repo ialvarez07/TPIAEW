@@ -1,24 +1,20 @@
 import datetime
 import json
 import pdb
-
 from django.http import HttpResponse
-
 from zeep import Client, Transport
 from zeep.cache import SqliteCache
-
 from django.conf import settings
 from zeep.helpers import serialize_object
 from dateutil import parser
-
-
 from .util import serializar, DecimalEncoder
+from .decoradores import access_token_requerido
 
 transport = Transport(cache=SqliteCache())
 soap = Client(settings.URL_WSDL, transport=transport)
 client = Client("http://romeroruben-001-site1.itempurl.com/WCFReservaVehiculos.svc?singlewsdl")
 
-from .decoradores import access_token_requerido
+
 @access_token_requerido
 def ciudades(request):
     resultado = {}
@@ -48,6 +44,7 @@ def ciudad(request, id_ciudad):
         resultado = ejemplo
     return HttpResponse(json.dumps(resultado))
 
+
 @access_token_requerido
 def getPaises(request):
     data = serialize_object(client.service.ConsultarPaises())
@@ -55,12 +52,14 @@ def getPaises(request):
     data_json = json.dumps(data)
     return HttpResponse(data_json, content_type='application/json')
 
+
 @access_token_requerido
 def getCiudades(request, idPais):
     data = serialize_object(client.service.ConsultarCiudades({"IdPais": idPais}))
     data = data['Ciudades']['CiudadEntity']
     data_json = json.dumps(data)
     return HttpResponse(data_json, content_type='application/json')
+
 
 @access_token_requerido
 def getVehiculosDisponibles(request, idCiudad):

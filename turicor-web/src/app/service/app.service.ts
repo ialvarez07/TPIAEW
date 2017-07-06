@@ -21,8 +21,6 @@ export class AppService {
   }
 
   private getHeaders() {
-    // I included these headers because otherwise FireFox
-    // will request text/html instead of application/json
     let headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Authorization', getAccessToken());
@@ -51,7 +49,7 @@ export class AppService {
     let requestOptions = new RequestOptions();
     requestOptions.params = params;
     return this.http
-      .get(`${this.apiUrl}`+'ciudades/'+idCiudad +'/vehiculos/', {params:params})
+      .get(`${this.apiUrl}`+'ciudades/'+idCiudad +'/vehiculos/', {headers: this.getHeaders(), params:params})
       .map(response =>response.json().map(toVehiculo));
   }
 
