@@ -8,13 +8,16 @@ import {Vehiculo} from "../models/vehiculo";
 import {Params} from "@angular/router";
 @Injectable()
 export class AppService {
-  private apiUrl = 'http://127.0.0.1:8000/api/';
-  private headers = new Headers({'Content-Type': 'application/json'});
+  private apiUrl = 'http://127.0.0.1:8080/api/';
+  private headers = new Headers({
+    'Content-Type': 'application/json'
+  });
   private vehiculo:Vehiculo;
   private retiro:Date;
   private devolucion:Date;
 
   constructor(private http: Http) {
+
   }
 
   private getHeaders() {
@@ -22,12 +25,13 @@ export class AppService {
     // will request text/html instead of application/json
     let headers = new Headers();
     headers.append('Accept', 'application/json');
+    headers.append('Authorization', getAccessToken());
     return headers;
   }
 
   getPaisesObservable(): Observable<Pais[]> {
     let pais$ = this.http
-      .get(`${this.apiUrl}`+'paises/')
+      .get(`${this.apiUrl}`+'paises/', {headers: this.getHeaders()})
       .map(response =>response.json().map(toPais));
     return pais$;
   }
@@ -35,7 +39,7 @@ export class AppService {
 
   getCiudadesObservable(id: number): Observable<Ciudad[]>{
     let ciudad = this.http
-      .get(`${this.apiUrl}`+'ciudades/' + id + "/")
+      .get(`${this.apiUrl}`+'ciudades/' + id + "/", {headers: this.getHeaders()})
       .map(response =>response.json().map(toCiudad));
     return ciudad;
   }
@@ -110,4 +114,19 @@ function toVehiculo(r: any): Vehiculo{
     vehiculo_ciudad_id: r.VehiculoCiudadId
   });
   return vehiculo;
+}
+
+function getAccessToken(): string {
+  let cookies: Array<string> = document.cookie.split(';');
+  let cookiesLen: number = cookies.length;
+  let cookieName = 'access_token';
+  let c: string;
+
+  for (let i: number = 0; i < cookiesLen; i += 1) {
+    c = cookies[i].replace(/^\s+/g, '');
+    if (c.indexOf(cookieName) == 0) {
+      return c.substring(cookieName.length + 1, c.length);
+    }
+  }
+  return '';
 }
