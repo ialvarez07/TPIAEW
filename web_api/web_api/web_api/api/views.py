@@ -7,7 +7,7 @@ from zeep.cache import SqliteCache
 from django.conf import settings
 from zeep.helpers import serialize_object
 from dateutil import parser
-from .util import serializar, DecimalEncoder
+from .util import parsearFecha, DecimalEncoder
 from .decoradores import access_token_requerido
 
 transport = Transport(cache=SqliteCache())
@@ -63,14 +63,10 @@ def getCiudades(request, idPais):
 
 @access_token_requerido
 def getVehiculosDisponibles(request, idCiudad):
-    retiro_str = request.GET.get('retiro')[:-6].__str__()
-    devolucion_str = request.GET.get('devolucion')[:-6].__str__()
-
-    retiro_date = parser.parse(retiro_str)
-    devolucion_date = parser.parse(devolucion_str)
-
-    retiro = datetime.datetime.strptime(retiro_date.__str__()[:-6], '%Y-%m-%d %H:%M:%S')
-    devolucion = datetime.datetime.strptime(devolucion_date.__str__()[:-6], '%Y-%m-%d %H:%M:%S')
+    retiro_str = request.GET.get('retiro')
+    devolucion_str = request.GET.get('devolucion')
+    retiro = parsearFecha(retiro_str)
+    devolucion = parsearFecha(devolucion_str)
 
     datos = {'IdCiudad': idCiudad, 'FechaHoraRetiro': retiro, 'FechaHoraDevolucion': devolucion}
     data = serialize_object(soap.service.ConsultarVehiculosDisponibles(datos))
