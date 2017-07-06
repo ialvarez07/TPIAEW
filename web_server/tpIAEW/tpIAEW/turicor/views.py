@@ -31,7 +31,7 @@ def oauth_callback(request):
                     expiracion = datetime.datetime.strftime(datetime.datetime.utcnow() +
                                                             datetime.timedelta(seconds=int(tiempo_expiracion_str)),
                                                             "%a, %d-%b-%Y %H:%M:%S GMT")
-                    response = HttpResponse('')
+                    response = HttpResponseRedirect('http://localhost:4200')
                     response.set_cookie('access_token', at, expires=expiracion)
                     print("Access token recibido: %s" % at)
                     return response
