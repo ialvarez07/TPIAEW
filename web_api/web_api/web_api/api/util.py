@@ -15,12 +15,17 @@ def serializar(object):
     return json.dumps(object_ser)
 
 
-class DecimalEncoder(json.JSONEncoder):
+class MyEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, decimal.Decimal):
             o = float(o) * 1.20
             return float(o)
-        return super(DecimalEncoder, self).default(o)
+        elif isinstance(o, datetime.datetime):
+            return str(o)
+        return super(MyEncoder, self).default(o)
+
+
+
 
 def parsearFecha(fecha):
     fecha_str = fecha[:-6].__str__()

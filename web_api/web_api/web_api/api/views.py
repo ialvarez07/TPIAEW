@@ -7,7 +7,9 @@ from zeep.cache import SqliteCache
 from django.conf import settings
 from zeep.helpers import serialize_object
 from dateutil import parser
-from .util import parsearFecha, DecimalEncoder
+
+
+from .util import parsearFecha, MyEncoder
 from .decoradores import access_token_requerido
 from .models import Reserva, Cliente, Vendedor
 
@@ -46,6 +48,17 @@ def ciudad(request, id_ciudad):
         resultado = ejemplo
     return HttpResponse(json.dumps(resultado))
 
+@access_token_requerido
+def getClientes(request):
+    clientes = Cliente.objects.all()
+    results = [c.dic() for c in clientes]
+    return HttpResponse(json.dumps(results), content_type='application/json')
+
+@access_token_requerido
+def getVendedores(request):
+    vendedores = Vendedor.objects.all()
+    results = [v.dic() for v in vendedores]
+    return HttpResponse(json.dumps(results), content_type='application/json')
 
 @access_token_requerido
 def getPaises(request):
@@ -73,10 +86,10 @@ def getVehiculosDisponibles(request, idCiudad):
     datos = {'IdCiudad': idCiudad, 'FechaHoraRetiro': retiro, 'FechaHoraDevolucion': devolucion}
     data = serialize_object(soap.service.ConsultarVehiculosDisponibles(datos))
     data = data['VehiculosEncontrados']['VehiculoModel']
-    data_json = json.dumps(data, cls=DecimalEncoder)
+    data_json = json.dumps(data, cls=MyEncoder)
     return HttpResponse(data_json, content_type='application/json')
 
-
+@access_token_requerido
 def reservas(request):
     if request.method == 'GET':
         """Devuelve todas las reservas"""
@@ -85,44 +98,52 @@ def reservas(request):
         for reserva in reservas:
             lista.append(reserva.dic())
 
-        return HttpResponse(json.dumps(lista, cls=DecimalEncoder), content_type="application/json")
+        return HttpResponse(json.dumps(lista, cls=MyEncoder), content_type="application/json")
     elif request.method == 'POST':
         """Registra una reserva"""
         datos_input = json.loads(request.body.decode("utf-8"))
         nombre = datos_input['nombre']
-        print(nombre)
-        apellido = request.POST.get('apellido', None)
-        print(apellido)
-        dni = request.POST.get('dni', None)
-        print(dni)
-        fechaRetiro = request.POST.get('fechaRetiro', None)
-        print(fechaRetiro)
-        fechaDevolucion = request.POST.get('fechaDevolucion', None)
-        print(fechaDevolucion)
-        lugarRetiro = request.POST.get('lugarRetiro', None)
-        print(lugarRetiro)
-        lugarDevolucion = request.POST.get('lugarDevolucion', None)
-        print(lugarDevolucion)
-        idVehiculoCiudad = request.POST.get('idVehiculoCiudad', None)
-        print(idVehiculoCiudad)
-        idCliente = request.POST.get('idCliente', None)
-        print(idCliente)
-        idVendedor = request.POST.get('idVendedor', None)
-        print(idVendedor)
+        apellido = datos_input['apellido']
+        dni = datos_input['dni']
+        fechaRetiro = datos_input['fechaRetiro']
+        fechaDevolucion = datos_input['fechaDevolucion']
+        idVehiculoCiudad = datos_input['idVehiculoCiudad']
+        idCliente = datos_input['idCliente']
+        idVendedor = datos_input['idVendedor']
 
-        if nombre and apellido and dni and lugarRetiro and lugarDevolucion and idVehiculoCiudad and idCliente and \
-                idVendedor and fechaDevolucion and fechaRetiro:
+        idPais = datos_input['idPais']
+
+        if nombre and apellido and dni and idVehiculoCiudad and fechaDevolucion and fechaRetiro:
+                #and idCliente and idVendedor:
             datos = {
                 'ApellidoNombreCliente': "%s , %s" % (apellido, nombre),
                 'FechaHoraDevolucion': parsearFecha(fechaDevolucion),
                 'FechaHoraRetiro': parsearFecha(fechaRetiro),
                 'IdVehiculoCiudad': idVehiculoCiudad,
-                'LugarDevolucion': lugarDevolucion,
-                'LugarRetiro': lugarRetiro,
                 'NroDocumentoCliente': dni
             }
             response = soap.service.ReservarVehiculo(datos)
-            print(response)
+            data = serialize_object(response)
+            data = data['Reserva']
+
+
+            #TODO Deberia buscar los del angular
+            cliente = Cliente.objects.get(id=idCliente)
+            vendedor = Vendedor.objects.get(id=idVendedor)
+            #data = json.dumps(data, cls=MyEncoder)
+
+            datos_reserva = Reserva(
+                codigo_reserva=data['CodigoReserva'],
+                fecha_reserva=data['FechaReserva'],
+                id_cliente=cliente,
+                id_vendedor=vendedor,
+                costo=float(data['VehiculoPorCiudadEntity']['VehiculoEntity']['PrecioPorDia']),
+                precio_venta=float(data['VehiculoPorCiudadEntity']['VehiculoEntity']['PrecioPorDia'])*1.20,
+                id_vehiculo_ciudad=data['VehiculoPorCiudadId'],
+                id_ciudad=data['VehiculoPorCiudadEntity']['CiudadId'],
+                id_pais=idPais,
+                )
+            reserva = Reserva.save(datos_reserva)
         else:
             return HttpResponseBadRequest('Faltan datos')
     return HttpResponseBadRequest('')

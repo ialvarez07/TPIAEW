@@ -16,7 +16,7 @@
         <div class="row">
           <h3>Ciudad</h3>
           <select class="form-control" [(ngModel)]="selectedCiudad"> // value is an object
-            <option *ngFor="let pais of ciudades" [ngValue]="pais">{{pais.name}}</option>
+            <option *ngFor="let ciudad of ciudades" [ngValue]="ciudad">{{ciudad.name}}</option>
           </select>
         </div>
         <div class="row text-center">

@@ -9,9 +9,11 @@ class Cliente(models.Model):
     def dic(self):
         return {
             "id": self.id,
+            "nombre": self.nombre,
             "apellido": self.apellido,
             "nro_documento": self.nro_documento
         }
+
 
     class Meta:
         managed = False
@@ -53,7 +55,7 @@ class Vendedor(models.Model):
     def dic(self):
         return {
             "id": self.id,
-            "nombre": self.nombre
+            "nombre": self.nombre,
         }
 
     class Meta:

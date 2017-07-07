@@ -6,6 +6,8 @@ export class Reserva{
   codigoReserva:number;
   idVendedor:number;
   idCliente:number;
-  costo:number;
   precioVenta:number;
+  id_vehiculo_ciudad:number;
+  id_ciudad:number;
+  id_pais:number;
 }

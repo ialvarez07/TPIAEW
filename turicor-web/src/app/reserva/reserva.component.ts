@@ -47,6 +47,7 @@ export class ReservaComponent implements OnInit {
   }
 
   hacerReserva(vehiculo:Vehiculo):void{
+    this.appService.setPais(this.selectedPais);
     this.appService.setVehiculo(vehiculo);
     this.appService.setFechaRetiro(this.retiroSeleccionado);
     this.appService.setFechaDevolucion(this.devolucionSeleccionado);

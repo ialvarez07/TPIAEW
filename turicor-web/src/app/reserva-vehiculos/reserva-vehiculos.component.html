@@ -15,12 +15,16 @@
     <input [(ngModel)]="nroDni" class="form-control">
   </div>
   <div class="col-sm-6 col-sm-offset-3">
-    <h3>Lugar de retiro</h3>
-    <input [(ngModel)]="lugarRetiro" class="form-control">
+    <h3>Cliente</h3>
+    <select class="form-control" [(ngModel)]="clienteSeleccionado"> // value is an object
+      <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.name +" "+ cliente.apellido}}</option>
+    </select>
   </div>
   <div class="col-sm-6 col-sm-offset-3">
-    <h3>Lugar de devolución</h3>
-    <input [(ngModel)]="lugarDevolucion" class="form-control">
+    <h3>Vendedor</h3>
+    <select class="form-control" [(ngModel)]="vendedorSeleccionado"> // value is an object
+      <option *ngFor="let vendedor of vendedores" [ngValue]="vendedor">{{vendedor.name}}</option>
+    </select>
   </div>
 
   <div class="col-sm-4">

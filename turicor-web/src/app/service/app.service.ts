@@ -7,13 +7,15 @@ import 'rxjs/add/operator/catch'
 import {Ciudad} from "../models/ciudad";
 import {Vehiculo} from "../models/vehiculo";
 import {Reserva} from "../models/reserva";
+import {Vendedor} from "../models/vendedor";
+import {Cliente} from "../models/cliente";
 @Injectable()
 export class AppService {
   private apiUrl = 'http://127.0.0.1:8080/api/';
   private vehiculo:Vehiculo;
   private retiro:Date;
   private devolucion:Date;
-
+  private pais:Pais;
   constructor(private http: Http) {
   }
 
@@ -22,6 +24,20 @@ export class AppService {
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', getAccessToken());
     return headers;
+  }
+
+  getClientesObservable(): Observable<Cliente[]> {
+    let cliente = this.http
+      .get(`${this.apiUrl}`+'clientes/', {headers: this.getHeaders()})
+      .map(response =>response.json().map(toCliente));
+    return cliente;
+  }
+
+  getVendedoresObservable(): Observable<Vendedor[]> {
+    let vendedor = this.http
+      .get(`${this.apiUrl}`+'vendedores/', {headers: this.getHeaders()})
+      .map(response =>response.json().map(toVendedor));
+    return vendedor;
   }
 
   getPaisesObservable(): Observable<Pais[]> {
@@ -50,13 +66,23 @@ export class AppService {
       .map(response =>response.json().map(toVehiculo));
   }
 
-   realizarReserva(nombre:string, apellido:string, dni:string, lugarRetiro:string, lugarDevolucion:string, retiro:Date,
-                   devolucion:Date, vehiculo:Vehiculo):Observable<Reserva>{
-    let body:any = {nombre:nombre, dni:dni};
+   realizarReserva(nombre:string, apellido:string, dni:string, fechaRetiro:Date,
+                   fechaDevolucion:Date, vehiculo:Vehiculo, pais:Pais,idCliente:number, idVendedor:number):Observable<Reserva>{
+    let body:any = {nombre:nombre,apellido:apellido, dni:dni, fechaRetiro:fechaRetiro.toString(),
+      fechaDevolucion:fechaDevolucion.toString(),
+    idVehiculoCiudad:vehiculo.vehiculo_ciudad_id,
+    idPais:pais.id, idCliente:idCliente, idVendedor:idVendedor};
+
     let options = new RequestOptions({headers:this.getHeaders()})
-    console.log("llega");
     let reserva = this.http.post(`${this.apiUrl}`+'reservas/',body,options)
       .map(toReserva).catch(this.handleError);
+    return reserva;
+  }
+
+  getReservas():Observable<Reserva[]>{
+    let reserva = this.http
+      .get(`${this.apiUrl}`+'reservas/', {headers: this.getHeaders()})
+      .map(response =>response.json().map(toReserva));
     return reserva;
   }
 
@@ -85,6 +111,9 @@ export class AppService {
   setFechaDevolucion(devolucion:Date){
     this.devolucion = devolucion;
   }
+  setPais(pais:Pais){
+    this.pais = pais;
+  }
 
 
   get getVehiculo(): Vehiculo {
@@ -98,6 +127,9 @@ export class AppService {
   get getDevolucion(): Date {
     return this.devolucion;
   }
+  get getPais(): Pais{
+    return this.pais;
+  }
 }
 
 function toPais(r: any): Pais {
@@ -106,6 +138,24 @@ function toPais(r: any): Pais {
     name: r.Nombre,
   });
   return pais;
+}
+
+function toVendedor(r: any): Vendedor {
+  let vendedor = <Vendedor>({
+    id: r.id,
+    name: r.nombre,
+  });
+  return vendedor;
+}
+
+function toCliente(r: any): Cliente {
+  let cliente = <Cliente>({
+    id: r.id,
+    name: r.nombre,
+    apellido: r.apellido,
+    dni: r.dni,
+  });
+  return cliente;
 }
 
 
@@ -137,12 +187,14 @@ function toVehiculo(r: any): Vehiculo{
 
 function toReserva(r:any):Reserva{
   let reserva = {
-    id: r.Id,
-    codigoReserva:r.CodigoReserva,
-    idVendedor:r.IdVendedor,
-    idCliente: r.IdCliente,
-    costo: r.Costo,
-    precioVenta: r.PrecioVenta
+    id: r.id,
+    codigoReserva:r.codigoReserva,
+    idVendedor:r.id_vendedor,
+    idCliente: r.id_cliente,
+    precioVenta: r.precio_venta,
+    id_vehiculo_ciudad:r.id_vehiculo_ciudad,
+    id_ciudad:r.id_ciudad,
+    id_pais:r.id_pais
   };
   return reserva;
 }
