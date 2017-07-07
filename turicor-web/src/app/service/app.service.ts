@@ -188,7 +188,7 @@ function toVehiculo(r: any): Vehiculo{
 function toReserva(r:any):Reserva{
   let reserva = {
     id: r.id,
-    codigoReserva:r.codigoReserva,
+    codigoReserva:r.codigo_reserva,
     idVendedor:r.id_vendedor,
     idCliente: r.id_cliente,
     precioVenta: r.precio_venta,

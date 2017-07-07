@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <table class="table table-hover">
+      <tr>
+        <th>Id</th>
+        <th>Codigo reserva</th>
+        <th>idVendedor</th>
+        <th>idCliente</th>
+        <th>Precio de Venta</th>
+        <th>Id Vehiculo Ciudad</th>
+        <th>Id Ciudad</th>
+        <th>Id Pais</th>
+        <th>Acción</th>
+      </tr>
+      <tr *ngFor="let reserva of reservas">
+        <td>{{reserva.id}}</td>
+        <td>{{reserva.codigoReserva}}</td>
+        <td>{{reserva.idVendedor}}</td>
+        <td>{{reserva.idCliente}}</td>
+        <td>${{reserva.precioVenta}}</td>
+        <td>{{reserva.id_vehiculo_ciudad}}</td>
+        <td>{{reserva.id_ciudad}}</td>
+        <td>{{reserva.id_pais}}</td>
+        <td><a class="fa fa-remove" (click)="cancelarReserva()"></a></td>
+      </tr>
+    </table>
+  </div>
+</div>

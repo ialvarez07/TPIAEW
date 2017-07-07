@@ -1,3 +1,4 @@
+import {Cliente} from "./cliente";
 /**
  * Created by ignacio on 06/07/17.
  */
