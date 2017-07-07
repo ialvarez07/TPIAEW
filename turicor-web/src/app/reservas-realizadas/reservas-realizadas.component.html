@@ -4,8 +4,8 @@
       <tr>
         <th>Id</th>
         <th>Codigo reserva</th>
-        <th>idVendedor</th>
-        <th>idCliente</th>
+        <th>Vendedor</th>
+        <th>Cliente</th>
         <th>Precio de Venta</th>
         <th>Id Vehiculo Ciudad</th>
         <th>Id Ciudad</th>
@@ -15,8 +15,8 @@
       <tr *ngFor="let reserva of reservas">
         <td>{{reserva.id}}</td>
         <td>{{reserva.codigoReserva}}</td>
-        <td>{{reserva.idVendedor}}</td>
-        <td>{{reserva.idCliente}}</td>
+        <td>{{reserva.nombreVendedor}}</td>
+        <td>{{reserva.nombreApellidoCliente}}</td>
         <td>${{reserva.precioVenta}}</td>
         <td>{{reserva.id_vehiculo_ciudad}}</td>
         <td>{{reserva.id_ciudad}}</td>

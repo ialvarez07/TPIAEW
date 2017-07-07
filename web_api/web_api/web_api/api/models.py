@@ -14,6 +14,8 @@ class Cliente(models.Model):
             "nro_documento": self.nro_documento
         }
 
+    def get_nombre(self):
+        return self.nombre + ', ' + self.apellido
 
     class Meta:
         managed = False
@@ -36,7 +38,9 @@ class Reserva(models.Model):
             "id": self.id,
             "codigo_reserva": self.codigo_reserva,
             "id_cliente": self.id_cliente.id,
+            "nombre_apellido_cliente": self.id_cliente.get_nombre(),
             "id_vendedor": self.id_vendedor.id,
+            "nombre_vendedor": self.id_vendedor.nombre,
             "costo": self.costo,
             "precio_venta": self.precio_venta,
             "id_vehiculo_ciudad": self.id_vehiculo_ciudad,
