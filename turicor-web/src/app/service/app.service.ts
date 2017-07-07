@@ -192,6 +192,7 @@ function toReserva(r:any):Reserva{
     idVendedor:r.id_vendedor,
     idCliente: r.id_cliente,
     precioVenta: r.precio_venta,
+    costo: r.costo,
     id_vehiculo_ciudad:r.id_vehiculo_ciudad,
     id_ciudad:r.id_ciudad,
     id_pais:r.id_pais
