@@ -17,6 +17,6 @@ export class ReservasRealizadasComponent implements OnInit {
 
 
   cancelarReserva(reserva: Reserva){
-
+    this.appService.cancelarReserva(reserva.id).subscribe();
   }
 }

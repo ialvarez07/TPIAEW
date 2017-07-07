@@ -96,8 +96,17 @@ export class AppService {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error(errMsg);
     return Observable.throw(errMsg);
+  }
+
+  private extractData(res: Response) {
+    let body = res.json();
+    return body || {};
+  }
+
+  cancelarReserva(idReserva: number):Observable<Reserva>{
+    return this.http.delete(`${this.apiUrl}` + 'reservas/' + idReserva, {headers: this.getHeaders()})
+      .map(this.extractData).catch(this.handleError);
   }
 
   setVehiculo(vehiculo:Vehiculo){
