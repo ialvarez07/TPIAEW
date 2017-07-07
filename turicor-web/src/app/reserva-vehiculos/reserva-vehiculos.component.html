@@ -65,8 +65,8 @@
             <td>{{vehiculo.cantidad_puertas}}</td>
             <td>{{vehiculo.precio_por_dia}}</td>
             <td>{{vehiculo.puntaje}}</td>
-            <td>{{vehiculo.tiene_aire_acon}}</td>
-            <td>{{vehiculo.tiene_direccion}}</td>
+            <td>{{vehiculo.tiene_aire_acon == true ? 'Si':'No'}}</td>
+            <td>{{vehiculo.tiene_direccion == true ? 'Si':'No'}}</td>
             <td>{{vehiculo.tipo_cambio}}</td>
           </tr>
         </tbody>
