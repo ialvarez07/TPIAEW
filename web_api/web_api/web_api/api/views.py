@@ -20,35 +20,6 @@ client = Client("http://romeroruben-001-site1.itempurl.com/WCFReservaVehiculos.s
 
 
 @access_token_requerido
-def ciudades(request):
-    resultado = {}
-    if request.method == 'GET':
-        lista_ejemplo = [
-            {
-                'id': 1,
-                'nombre': 'Cordoba'
-            },
-            {
-                'id': 2,
-                'nombre': 'Rosario'
-            }
-        ]
-        resultado = lista_ejemplo
-    return HttpResponse(json.dumps(resultado))
-
-
-@access_token_requerido
-def ciudad(request, id_ciudad):
-    resultado = {}
-    if request.method == 'GET':
-        ejemplo = {
-                    'id': id_ciudad,
-                    'nombre': 'Córdoba'
-                }
-        resultado = ejemplo
-    return HttpResponse(json.dumps(resultado))
-
-@access_token_requerido
 def getClientes(request):
     clientes = Cliente.objects.all()
     results = [c.dic() for c in clientes]
@@ -89,6 +60,7 @@ def getVehiculosDisponibles(request, idCiudad):
     data_json = json.dumps(data, cls=MyEncoder)
     return HttpResponse(data_json, content_type='application/json')
 
+
 @access_token_requerido
 def reservas(request):
     if request.method == 'GET':
@@ -108,13 +80,12 @@ def reservas(request):
         fechaRetiro = datos_input['fechaRetiro']
         fechaDevolucion = datos_input['fechaDevolucion']
         idVehiculoCiudad = datos_input['idVehiculoCiudad']
-        idCliente = datos_input['idCliente']
         idVendedor = datos_input['idVendedor']
 
         idPais = datos_input['idPais']
 
-        if nombre and apellido and dni and idVehiculoCiudad and fechaDevolucion and fechaRetiro:
-                #and idCliente and idVendedor:
+        if nombre and apellido and dni and idVehiculoCiudad and fechaDevolucion and fechaRetiro \
+                and idVendedor:
             datos = {
                 'ApellidoNombreCliente': "%s , %s" % (apellido, nombre),
                 'FechaHoraDevolucion': parsearFecha(fechaDevolucion),
@@ -126,11 +97,12 @@ def reservas(request):
             data = serialize_object(response)
             data = data['Reserva']
 
-
-            #TODO Deberia buscar los del angular
-            cliente = Cliente.objects.get(id=idCliente)
+            cliente, creado = Cliente.objects.get_or_create(
+                nombre=nombre,
+                apellido=apellido,
+                nro_documento=dni
+            )
             vendedor = Vendedor.objects.get(id=idVendedor)
-            #data = json.dumps(data, cls=MyEncoder)
 
             datos_reserva = Reserva(
                 codigo_reserva=data['CodigoReserva'],
@@ -144,6 +116,7 @@ def reservas(request):
                 id_pais=idPais,
                 )
             reserva = Reserva.save(datos_reserva)
+            return HttpResponse(json.dumps(reserva))
         else:
             return HttpResponseBadRequest('Faltan datos')
     return HttpResponseBadRequest('')
