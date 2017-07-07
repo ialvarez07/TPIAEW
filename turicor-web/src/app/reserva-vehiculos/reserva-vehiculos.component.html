@@ -3,20 +3,24 @@
     <h1>Reserva de Vehiculos</h1>
   </div>
   <div class="col-sm-6 col-sm-offset-3">
-    <h3>Nombre y Apellido</h3>
-    <input class="form-control">
+    <h3>Nombre</h3>
+    <input [(ngModel)]="nombre" class="form-control">
+  </div>
+  <div class="col-sm-6 col-sm-offset-3">
+    <h3>Apellido</h3>
+    <input [(ngModel)]="apellido" class="form-control">
   </div>
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Número de Documento</h3>
-    <input class="form-control">
+    <input [(ngModel)]="nroDni" class="form-control">
   </div>
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Lugar de retiro</h3>
-    <input class="form-control">
+    <input [(ngModel)]="lugarRetiro" class="form-control">
   </div>
   <div class="col-sm-6 col-sm-offset-3">
     <h3>Lugar de devolución</h3>
-    <input class="form-control">
+    <input [(ngModel)]="lugarDevolucion" class="form-control">
   </div>
 
   <div class="col-sm-4">
@@ -49,6 +53,6 @@
     </div>
   </div>
   <div class="row pull-right">
-    <button class="btn btn-primary" (click)="reservar()" >Realizar Reserva</button>
+    <button class="btn btn-primary" (click)="reservar()">Realizar Reserva</button>
   </div>
 </div>

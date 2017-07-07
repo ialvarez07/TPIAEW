@@ -13,10 +13,11 @@ export class ReservaVehiculosComponent implements OnInit {
   retiro:Date;
   devolucion:Date;
   vehiculo:Vehiculo;
-  nombreYApellido:String;
-  nroDni:String;
-  lugarRetiro:String;
-  lugarDevolucion:String;
+  nombre:string;
+  apellido:string;
+  nroDni:string;
+  lugarRetiro:string;
+  lugarDevolucion:string;
   constructor(private appService:AppService) {
     this.fechaActual = Date.now();
   }
@@ -29,12 +30,16 @@ export class ReservaVehiculosComponent implements OnInit {
 
   reservar(){
     this.validarDatos();
-
+    // this.appService.realizarReserva(this.nombre,this.apellido,this.nroDni,this.lugarRetiro, this.lugarDevolucion,
+    // this.retiro,this.devolucion, this.vehiculo);
   }
 
   validarDatos(){
-    if(this.nombreYApellido == ""){
+    if(this.nombre== ""){
       //TODO MENSAJE ERROR
+    }
+    if(this.apellido == ""){
+
     }
     if(this.nroDni == ""){
       //TODO MENSAJE ERROR

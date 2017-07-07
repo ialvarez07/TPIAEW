@@ -3,15 +3,13 @@ import {Headers, Http, RequestOptions, Response, URLSearchParams} from '@angular
 import {Observable} from "rxjs/Observable";
 import {Pais} from "../models/pais";
 import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch'
 import {Ciudad} from "../models/ciudad";
 import {Vehiculo} from "../models/vehiculo";
-import {Params} from "@angular/router";
+import {Reserva} from "../models/reserva";
 @Injectable()
 export class AppService {
   private apiUrl = 'http://127.0.0.1:8080/api/';
-  private headers = new Headers({
-    'Content-Type': 'application/json'
-  });
   private vehiculo:Vehiculo;
   private retiro:Date;
   private devolucion:Date;
@@ -21,7 +19,7 @@ export class AppService {
 
   private getHeaders() {
     let headers = new Headers();
-    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
     headers.append('Authorization', getAccessToken());
     return headers;
   }
@@ -52,15 +50,29 @@ export class AppService {
       .map(response =>response.json().map(toVehiculo));
   }
 
-  realizarReserva(nombreYApellido:string, dni:string, lugarRetiro:string, lugarDevolucion:string, retiro:Date,
-                  devolucion:Date, vehiculo:Vehiculo){
-    let params:URLSearchParams = new URLSearchParams;
-    params.set('retiro', retiro.toString());
-    params.set('devolucion', devolucion.toString());
-    params.set('nombre', nombreYApellido);
-    //TODO
+   realizarReserva(nombre:string, apellido:string, dni:string, lugarRetiro:string, lugarDevolucion:string, retiro:Date,
+                   devolucion:Date, vehiculo:Vehiculo):Observable<Reserva>{
+    let body:any = {nombre:nombre, dni:dni};
+    let options = new RequestOptions({headers:this.getHeaders()})
+    console.log("llega");
+    let reserva = this.http.post(`${this.apiUrl}`+'reservas/',body,options)
+      .map(toReserva).catch(this.handleError);
+    return reserva;
   }
 
+  private handleError (error: Response | any) {
+    // In a real world app, you might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
 
   setVehiculo(vehiculo:Vehiculo){
     this.vehiculo = vehiculo;
@@ -121,6 +133,18 @@ function toVehiculo(r: any): Vehiculo{
     vehiculo_ciudad_id: r.VehiculoCiudadId
   });
   return vehiculo;
+}
+
+function toReserva(r:any):Reserva{
+  let reserva = {
+    id: r.Id,
+    codigoReserva:r.CodigoReserva,
+    idVendedor:r.IdVendedor,
+    idCliente: r.IdCliente,
+    costo: r.Costo,
+    precioVenta: r.PrecioVenta
+  };
+  return reserva;
 }
 
 export function getAccessToken(): string {
