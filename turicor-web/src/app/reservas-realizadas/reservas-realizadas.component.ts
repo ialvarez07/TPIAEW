@@ -16,7 +16,7 @@ export class ReservasRealizadasComponent implements OnInit {
   }
 
 
-  cancelarReserva(){
+  cancelarReserva(reserva: Reserva){
 
   }
 }

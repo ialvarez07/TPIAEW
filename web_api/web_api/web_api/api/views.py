@@ -2,6 +2,8 @@ import datetime
 import json
 import pdb
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.http.response import HttpResponseServerError
+from django.shortcuts import get_object_or_404
 from zeep import Client, Transport
 from zeep.cache import SqliteCache
 from django.conf import settings
@@ -120,3 +122,18 @@ def reservas(request):
         else:
             return HttpResponseBadRequest('Faltan datos')
     return HttpResponseBadRequest('')
+
+
+@access_token_requerido
+def reserva(request, idReserva):
+    if request.method == 'DELETE':
+        try:
+            r = Reserva.objects.get(id=idReserva)
+            r.delete()
+            return HttpResponse('')
+        except Exception as ex:
+            print(ex)
+            return HttpResponseServerError('Ha ocurrido un error')
+    elif request.method == 'GET':
+        r = get_object_or_404(Reserva, id=idReserva)
+        return HttpResponse(json.dumps(r.dic(), cls=MyEncoder), content_type="application/json")
