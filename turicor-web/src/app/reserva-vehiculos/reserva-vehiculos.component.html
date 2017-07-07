@@ -1,62 +1,87 @@
 <div class="container">
-  <div class="col-sm-6 col-sm-offset-3">
-    <h1>Reserva de Vehiculos</h1>
-  </div>
-  <div class="col-sm-6 col-sm-offset-3">
-    <h3>Nombre</h3>
-    <input [(ngModel)]="nombre" class="form-control">
-  </div>
-  <div class="col-sm-6 col-sm-offset-3">
-    <h3>Apellido</h3>
-    <input [(ngModel)]="apellido" class="form-control">
-  </div>
-  <div class="col-sm-6 col-sm-offset-3">
-    <h3>Número de Documento</h3>
-    <input [(ngModel)]="nroDni" class="form-control">
-  </div>
-  <div class="col-sm-6 col-sm-offset-3">
-    <h3>Cliente</h3>
-    <select class="form-control" [(ngModel)]="clienteSeleccionado"> // value is an object
-      <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.name +" "+ cliente.apellido}}</option>
-    </select>
-  </div>
-  <div class="col-sm-6 col-sm-offset-3">
-    <h3>Vendedor</h3>
-    <select class="form-control" [(ngModel)]="vendedorSeleccionado"> // value is an object
-      <option *ngFor="let vendedor of vendedores" [ngValue]="vendedor">{{vendedor.name}}</option>
-    </select>
-  </div>
-
-  <div class="col-sm-4">
-    <h3>Fecha De Reserva</h3>
-    <h5>{{fechaActual | date:'medium'}}</h5>
-  </div>
-  <div class="col-sm-4">
-    <h3>Fecha De Retiro</h3>
-    <h5>{{retiro | date:'medium'}}</h5>
-  </div>
-  <div class="col-sm-4">
-    <h3>Fecha De Devolución</h3>
-    <h5>{{devolucion | date:'medium'}}</h5>
-  </div>
-
-  <div class="col-xs-9">
-    <h4>Detalles reserva</h4>
-    <div class="col-xs-9 ">
-      <ul class="list-group">
-        <li class="list-group-item"><label>Marca: </label>{{vehiculo.marca}}</li>
-        <li class="list-group-item"><label>Modelo: </label>{{vehiculo.modelo}}</li>
-        <li class="list-group-item"><label>Cantidad Disponible: </label>{{vehiculo.cantidad_disponible}}</li>
-        <li class="list-group-item"><label>Cantidad de Puertas: </label>{{vehiculo.cantidad_puertas}}</li>
-        <li class="list-group-item"><label>Precio por día: </label>{{vehiculo.precio_por_dia}}</li>
-        <li class="list-group-item"><label>Puntaje: </label>{{vehiculo.puntaje}}</li>
-        <li class="list-group-item"><label>Aire acondicionado: </label>{{vehiculo.tiene_aire_acon}}</li>
-        <li class="list-group-item"><label>Dirección: </label>{{vehiculo.tiene_direccion}}</li>
-        <li class="list-group-item"><label>Tipo de Cambio: </label>{{vehiculo.tipo_cambio}}</li>
-      </ul>
+  <div class="row text-center">
+    <div class="col-sm-6 col-sm-offset-3">
+      <h1>Reserva de Vehículo</h1>
     </div>
   </div>
-  <div class="row pull-right">
-    <button class="btn btn-primary" (click)="reservar()">Realizar Reserva</button>
+  <div class="row text-center">
+    <div class="col-sm-6 col-sm-offset-3">
+      <table class="table table-bordered text-center">
+        <thead>
+          <th>Fecha reserva</th>
+          <th>Fecha retiro</th>
+          <th>Fecha devolución</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{fechaActual | date:'medium'}}</td>
+            <td>{{retiro | date:'medium'}}</td>
+            <td>{{devolucion | date:'medium'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  <div class="row">
+    <div class="col-sm-3 col-sm-offset-3">
+      <h4>Nombre</h4>
+      <input [(ngModel)]="nombre" class="form-control">
+    </div>
+    <div class="col-sm-3">
+      <h4>Apellido</h4>
+      <input [(ngModel)]="apellido" class="form-control">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-3 col-sm-offset-3">
+      <h4>Número de Documento</h4>
+      <input [(ngModel)]="nroDni" class="form-control">
+    </div>
+    <div class="col-sm-3">
+      <h4>Vendedor</h4>
+      <select class="form-control" [(ngModel)]="vendedorSeleccionado"> // value is an object
+        <option *ngFor="let vendedor of vendedores" [ngValue]="vendedor">{{vendedor.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h4>Detalle del vehículo</h4>
+      <table class="table table-bordered text-center">
+        <thead>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Cantidad puertas</th>
+          <th>Precio</th>
+          <th>Puntaje</th>
+          <th>Aire Acondicionado</th>
+          <th>Dirección</th>
+          <th>Cambio</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{vehiculo.marca}}</td>
+            <td>{{vehiculo.modelo}}</td>
+            <td>{{vehiculo.cantidad_puertas}}</td>
+            <td>{{vehiculo.precio_por_dia}}</td>
+            <td>{{vehiculo.puntaje}}</td>
+            <td>{{vehiculo.tiene_aire_acon}}</td>
+            <td>{{vehiculo.tiene_direccion}}</td>
+            <td>{{vehiculo.tipo_cambio}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-sm-offset-8">
+      <button class="btn btn-primary" (click)="reservar()">Realizar Reserva</button>
+    </div>
+  </div>
+</div>
+<div class="col-sm-6 col-sm-offset-3">
+  <h3>Cliente</h3>
+  <select class="form-control" [(ngModel)]="clienteSeleccionado"> // value is an object
+    <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.name +" "+ cliente.apellido}}</option>
+  </select>
 </div>
