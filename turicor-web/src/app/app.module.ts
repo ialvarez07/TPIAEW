@@ -14,6 +14,7 @@ import { ReservaComponent } from './reserva/reserva.component';
 import { ReservaVehiculosComponent } from './reserva-vehiculos/reserva-vehiculos.component';
 import { CheckToken } from './service/check-token.service';
 import { ReservasRealizadasComponent } from './reservas-realizadas/reservas-realizadas.component';
+import { IndexComponent } from './index/index.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { ReservasRealizadasComponent } from './reservas-realizadas/reservas-real
     ReservaComponent,
     ReservaVehiculosComponent,
     ReservasRealizadasComponent,
+    IndexComponent,
   ],
   imports: [
     BrowserModule,

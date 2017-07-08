@@ -67,11 +67,11 @@ export class AppService {
   }
 
    realizarReserva(nombre:string, apellido:string, dni:string, fechaRetiro:Date,
-                   fechaDevolucion:Date, vehiculo:Vehiculo, pais:Pais,idCliente:number, idVendedor:number):Observable<Reserva>{
+                   fechaDevolucion:Date, vehiculo:Vehiculo, pais:Pais, idVendedor:number):Observable<Reserva>{
     let body:any = {nombre:nombre,apellido:apellido, dni:dni, fechaRetiro:fechaRetiro.toString(),
       fechaDevolucion:fechaDevolucion.toString(),
     idVehiculoCiudad:vehiculo.vehiculo_ciudad_id,
-    idPais:pais.id, idCliente:idCliente, idVendedor:idVendedor};
+    idPais:pais.id, idVendedor:idVendedor};
 
     let options = new RequestOptions({headers:this.getHeaders()})
     let reserva = this.http.post(`${this.apiUrl}`+'reservas/',body,options)
@@ -105,7 +105,7 @@ export class AppService {
   }
 
   cancelarReserva(idReserva: number):Observable<Reserva>{
-    return this.http.delete(`${this.apiUrl}` + 'reservas/' + idReserva, {headers: this.getHeaders()})
+    return this.http.delete(`${this.apiUrl}` + 'reservas/' + idReserva + '/', {headers: this.getHeaders()})
       .map(this.extractData).catch(this.handleError);
   }
 

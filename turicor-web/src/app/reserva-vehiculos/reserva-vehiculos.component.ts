@@ -52,7 +52,7 @@ export class ReservaVehiculosComponent implements OnInit {
   reservar(){
     this.validarDatos();
      this.appService.realizarReserva(this.nombre,this.apellido,this.nroDni,
-     this.retiro,this.devolucion, this.vehiculo,this.pais,this.clienteSeleccionado.id,this.vendedorSeleccionado.id).subscribe();
+     this.retiro,this.devolucion, this.vehiculo,this.pais,this.vendedorSeleccionado.id).subscribe();
   }
 
 

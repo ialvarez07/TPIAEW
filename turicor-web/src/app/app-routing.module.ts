@@ -5,10 +5,11 @@ import { ReservaVehiculosComponent } from './reserva-vehiculos/reserva-vehiculos
 import { LoginComponent } from './login/login.component';
 import { CheckToken } from './service/check-token.service';
 import {ReservasRealizadasComponent} from "./reservas-realizadas/reservas-realizadas.component";
+import {IndexComponent} from "./index/index.component";
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full'},
+  { path: '', component: IndexComponent, pathMatch: 'full'},
   { path: 'reserva',  component: ReservaComponent, canActivate: [CheckToken] },
   { path: 'reserva_vehiculos', component: ReservaVehiculosComponent, canActivate: [CheckToken] },
   { path: 'reserva_realizadas', component: ReservasRealizadasComponent, canActivate: [CheckToken] },

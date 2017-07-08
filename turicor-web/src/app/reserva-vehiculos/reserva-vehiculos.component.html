@@ -79,9 +79,3 @@
     </div>
   </div>
 </div>
-<div class="col-sm-6 col-sm-offset-3">
-  <h3>Cliente</h3>
-  <select class="form-control" [(ngModel)]="clienteSeleccionado"> // value is an object
-    <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{cliente.name +" "+ cliente.apellido}}</option>
-  </select>
-</div>
